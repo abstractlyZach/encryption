@@ -1,15 +1,15 @@
 import pytest
 
-from encryption import encryption
+from encryption import base
 
 def test_init_raises_exception():
     with pytest.raises(NotImplementedError):
-        encryption.EncryptionScheme()
+        base.EncryptionScheme()
 
 def test_encrypt_raises_exception():
     with pytest.raises(NotImplementedError):
-        encryption.EncryptionScheme.encrypt('self', 'abc', 'def')
+        base.EncryptionScheme.encrypt('self', 'abc', 'def')
 
 def test_decrypt_raises_exception():
     with pytest.raises(NotImplementedError):
-        encryption.EncryptionScheme.decrypt('self', 'abc', 'def')
+        base.EncryptionScheme.decrypt('self', 'abc', 'def')
