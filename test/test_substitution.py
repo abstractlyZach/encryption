@@ -54,8 +54,15 @@ class TestSubstitutionCipher(object):
         key = {'a': 'b', 'b': 'b'}
         assert not substitution_cipher.key_is_valid(key)
 
-    def test_uppercase_stays_upper(self, substitution_cipher):
+    def test_case_stays_same(self, substitution_cipher):
         plaintext = 'The QUICK broWn FoX'
         key = dict(zip(plaintext.lower(), plaintext.lower()))
         ciphertext = substitution_cipher.encrypt(plaintext, key)
         assert plaintext == ciphertext
+
+    def test_uppercase_in_key_doesnt_affect_encryption(self,
+                                                       substitution_cipher):
+        plaintext = 'AaAaAa'
+        key = {'A': 'b'}
+        ciphertext = substitution_cipher.encrypt(plaintext, key)
+        assert ciphertext == 'BbBbBb'

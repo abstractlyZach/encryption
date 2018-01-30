@@ -10,6 +10,7 @@ class SubstitutionCipher(base.EncryptionScheme):
 
     def encrypt(self, plaintext, key):
         self._validate_key(key)
+        key = self._convert_key_to_lower(key)
         ciphertext = ''
         for char in plaintext:
             new_char = self._get_replacement_character(char, key)
@@ -25,6 +26,11 @@ class SubstitutionCipher(base.EncryptionScheme):
                 raise exceptions.InvalidKeyException(error_message)
             else:
                 seen_values.add(value)
+
+    def _convert_key_to_lower(self, encryption_key):
+        new_key = {key.lower(): value.lower()
+                   for key, value in encryption_key.items()}
+        return new_key
 
     def _get_replacement_character(self, char, key):
         try:
