@@ -50,7 +50,8 @@ class TestSubstitutionCipher(object):
         key = dict(zip(ALPHABET, ALPHABET))
         assert substitution_cipher.key_is_valid(key)
 
-    def test_key_is_invalid(self, substitution_cipher):
+    def test_key_maps_different_plain_to_same_cipher(self,
+                                                     substitution_cipher):
         key = {'a': 'b', 'b': 'b'}
         assert not substitution_cipher.key_is_valid(key)
 
@@ -66,3 +67,13 @@ class TestSubstitutionCipher(object):
         key = {'A': 'b', 'c': 'D'}
         ciphertext = substitution_cipher.encrypt(plaintext, key)
         assert ciphertext == 'BbDd'
+
+    def test_multiple_keys_with_same_char_in_both_cases(self,
+                                                        substitution_cipher):
+        key = {'a': 'b', 'A': 'c'}
+        assert not substitution_cipher.key_is_valid(key)
+
+    def test_multiple_values_with_same_char_in_both_cases(self,
+                                                          substitution_cipher):
+        key = {'a': 'b', 'b': 'B'}
+        assert not substitution_cipher.key_is_valid(key)

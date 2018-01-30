@@ -17,9 +17,25 @@ class SubstitutionCipher(base.EncryptionScheme):
             ciphertext += new_char
         return ciphertext
 
-    def _validate_key(self, key):
+    def _validate_key(self, encryption_key):
+        self._check_keys_are_unique(encryption_key.keys())
+        self._check_values_are_unique(encryption_key.values())
+
+    def _check_keys_are_unique(self, keys):
+        seen_keys = set()
+        for key in keys:
+            key = key.lower()
+            if key in seen_keys:
+                error_message = 'Key contains {} and {}'.format(key.upper(),
+                                                                key.lower())
+                raise exceptions.InvalidKeyException(error_message)
+            else:
+                seen_keys.add(key)
+
+    def _check_values_are_unique(self, values):
         seen_values = set()
-        for _, value in key.items():
+        for value in values:
+            value = value.lower()
             if value in seen_values:
                 error_message = 'Multiple chars are mapped to "{}"'.format(
                     value)
