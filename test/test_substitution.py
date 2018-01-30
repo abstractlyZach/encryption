@@ -62,7 +62,7 @@ class TestSubstitutionCipher(object):
 
     def test_uppercase_in_key_doesnt_affect_encryption(self,
                                                        substitution_cipher):
-        plaintext = 'AaAaAa'
-        key = {'A': 'b'}
+        plaintext = 'AaCc'
+        key = {'A': 'b', 'c': 'D'}
         ciphertext = substitution_cipher.encrypt(plaintext, key)
-        assert ciphertext == 'BbBbBb'
+        assert ciphertext == 'BbDd'
