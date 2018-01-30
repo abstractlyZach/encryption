@@ -28,7 +28,10 @@ class SubstitutionCipher(base.EncryptionScheme):
 
     def _get_replacement_character(self, char, key):
         try:
-            return key[char]
+            if char.isupper():
+                return key[char.lower()].upper()
+            else:
+                return key[char]
         except KeyError:
             return self._handle_missing_character(char)
 
