@@ -46,11 +46,11 @@ class TestSubstitutionCipher(object):
         with pytest.raises(exceptions.InvalidKeyException):
             substitution_cipher.encrypt(plaintext, key)
 
-    def test_is_valid(self, substitution_cipher):
+    def test_key_is_valid(self, substitution_cipher):
         key = dict(zip(ALPHABET, ALPHABET))
         assert substitution_cipher.key_is_valid(key)
 
-    def test_is_invalid(self, substitution_cipher):
+    def test_key_is_invalid(self, substitution_cipher):
         key = {'a': 'b', 'b': 'b'}
         assert not substitution_cipher.key_is_valid(key)
 

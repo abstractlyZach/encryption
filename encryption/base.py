@@ -8,3 +8,6 @@ class EncryptionScheme(object):
 
     def decrypt(self, ciphertext, key):
         raise NotImplementedError
+
+    def key_is_valid(self, key):
+        raise NotImplementedError
