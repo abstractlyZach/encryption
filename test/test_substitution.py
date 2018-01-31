@@ -5,6 +5,9 @@ from encryption import substitution
 
 
 ALPHABET = 'abcdefghijklmnopqrstuvwxyz'
+FOX_TEXT = 'The quick brown fox jumps over the lazy dog.'
+SHIFT_1 = 'Uif rvjdl cspxo gpy kvnqt pwfs uif mbaz eph.'
+SHIFT_25 = 'Sgd pthbj aqnvm enw itlor nudq sgd kzyx cnf.'
 
 @pytest.fixture
 def substitution_cipher():
@@ -77,3 +80,60 @@ class TestSubstitutionCipher(object):
                                                           substitution_cipher):
         key = {'a': 'b', 'b': 'B'}
         assert not substitution_cipher.key_is_valid(key)
+
+class TestCaesarCipher(object):
+    def test_no_shift(self):
+        cipher = substitution.CaesarCipher()
+        plaintext = FOX_TEXT
+        ciphertext = cipher.encrypt(plaintext, 0)
+        assert plaintext == ciphertext
+
+    def test_shift_1(self):
+        cipher = substitution.CaesarCipher()
+        plaintext = FOX_TEXT
+        ciphertext = cipher.encrypt(plaintext, 1)
+        assert ciphertext == SHIFT_1
+
+    def test_shift_26(self):
+        cipher = substitution.CaesarCipher()
+        plaintext = FOX_TEXT
+        ciphertext = cipher.encrypt(plaintext, 26)
+        assert ciphertext == plaintext
+
+    def test_shift_27(self):
+        cipher = substitution.CaesarCipher()
+        plaintext = FOX_TEXT
+        ciphertext = cipher.encrypt(plaintext, 27)
+        assert ciphertext == SHIFT_1
+
+    def test_shift_back_1(self):
+        cipher = substitution.CaesarCipher()
+        plaintext = FOX_TEXT
+        ciphertext = cipher.encrypt(plaintext, -1)
+        assert ciphertext == SHIFT_25
+
+    def test_shift_back_26(self):
+        cipher = substitution.CaesarCipher()
+        plaintext = FOX_TEXT
+        ciphertext = cipher.encrypt(plaintext, -26)
+        assert ciphertext == plaintext
+
+    def test_shift_back_27(self):
+        cipher = substitution.CaesarCipher()
+        plaintext = FOX_TEXT
+        ciphertext = cipher.encrypt(plaintext, -27)
+        assert ciphertext == SHIFT_25
+
+    def test_key_is_valid(self):
+        valid_keys = [-100, 100, 0]
+        invalid_keys = [{'a':'b', 'b':'c'}, 'aeiou', []]
+        cipher = substitution.CaesarCipher()
+        for key in valid_keys:
+            assert cipher.key_is_valid(key)
+        for key in invalid_keys:
+            assert not cipher.key_is_valid(key)
+
+    def test_shift_raises_exception_with_invalid_key(self):
+        cipher = substitution.CaesarCipher()
+        with pytest.raises(exceptions.InvalidKeyException):
+            cipher.encrypt('abc', {'a':'b', 'b':'c'})

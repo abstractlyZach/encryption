@@ -2,6 +2,10 @@
 from . import base
 from . import exceptions
 
+
+ALPHABET = 'abcdefghijklmnopqrstuvwxyz'
+
+
 class SubstitutionCipher(base.EncryptionScheme):
     """Cipher that replaces each letter of the plaintext with another
     specific letter of ciphertext."""
@@ -16,6 +20,12 @@ class SubstitutionCipher(base.EncryptionScheme):
             new_char = self._get_replacement_character(char, key)
             ciphertext += new_char
         return ciphertext
+
+    def decrypt(self, ciphertext, key):
+        self._validate_key(key)
+        key = self._convert_key_to_lower(key)
+        plaintext = ''
+        pass
 
     def _validate_key(self, encryption_key):
         self._check_keys_are_unique(encryption_key.keys())
@@ -71,6 +81,35 @@ class SubstitutionCipher(base.EncryptionScheme):
             return False
         return True
 
+
+class CaesarCipher(SubstitutionCipher):
+    def key_is_valid(self, key):
+        return isinstance(key, int)
+
+    def encrypt(self, plaintext, key):
+        self._ensure_key_is_int(key)
+        key = key % 26
+        substitution_key = dict(zip(ALPHABET, ALPHABET[key:] + ALPHABET[:key]))
+        return super(CaesarCipher, self).encrypt(plaintext, substitution_key)
+
+    # can't name _validate_key because then it'll interfere with the super call
+    def _ensure_key_is_int(self, encryption_key):
+        if not self.key_is_valid(encryption_key):
+            error_message = "Key should be an int."
+            raise exceptions.InvalidKeyException(error_message)
+
+
+def get_caesar_cipher(shift_distance):
+    """Returns a Caesar cipher.
+    Args:
+        - shift_distance: how far to shift each character. ex.
+        shift_distance=1 means a->b, b->c, c->d, ...
+        shift_distance=2 means a->c, b->d, c->e, ...
+        shift_distance=-1 means a->z, b->a, c->b, ...
+    Returns:
+        SubstitutionCipher
+    """
+    pass
 
 
 
