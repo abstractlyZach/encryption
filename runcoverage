@@ -1,0 +1,2 @@
+python -m pytest --cov-report html --cov encryption
+open htmlcov/index.html
