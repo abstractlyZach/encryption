@@ -82,18 +82,21 @@ class SubstitutionCipher(base.EncryptionScheme):
 
 
 class CaesarCipher(SubstitutionCipher):
-    def key_is_valid(self, key):
-        return isinstance(key, int)
-
     def encrypt(self, plaintext, key):
+        """Returns a Caesar cipher.
+        Args:
+            - key: how far to shift each character. ex.
+                key=1 means a->b, b->c, c->d, ...
+                key=2 means a->c, b->d, c->e, ...
+                key=-1 means a->z, b->a, c->b, ...
+            - plaintext: the text you want to encrypt
+        Returns:
+            ciphertext: the encrypted text
+        """
         self._ensure_key_is_int(key)
         key = key % 26
         substitution_key = dict(zip(ALPHABET, ALPHABET[key:] + ALPHABET[:key]))
         return super(CaesarCipher, self).encrypt(plaintext, substitution_key)
-
-    def decrypt(self, ciphertext, key):
-        self._ensure_key_is_int(key)
-        return self.encrypt(ciphertext, -key)
 
     # can't name _validate_key because then it'll interfere with the super call
     def _ensure_key_is_int(self, encryption_key):
@@ -101,18 +104,23 @@ class CaesarCipher(SubstitutionCipher):
             error_message = "Key should be an int."
             raise exceptions.InvalidKeyException(error_message)
 
+    def key_is_valid(self, key):
+        return isinstance(key, int)
 
-def get_caesar_cipher(shift_distance):
-    """Returns a Caesar cipher.
-    Args:
-        - shift_distance: how far to shift each character. ex.
-        shift_distance=1 means a->b, b->c, c->d, ...
-        shift_distance=2 means a->c, b->d, c->e, ...
-        shift_distance=-1 means a->z, b->a, c->b, ...
-    Returns:
-        SubstitutionCipher
-    """
-    pass
+    def decrypt(self, ciphertext, key):
+        """Decrypts the ciphertext using the key.
+        Args:
+            - key: how far to shift each character. ex.
+                key=1 means a->b, b->c, c->d, ...
+                key=2 means a->c, b->d, c->e, ...
+                key=-1 means a->z, b->a, c->b, ...
+            - ciphertext: the text you want to decrypt
+        Returns:
+            plaintext: the decrypted text
+        """
+        self._ensure_key_is_int(key)
+        return self.encrypt(ciphertext, -key)
+
 
 
 
