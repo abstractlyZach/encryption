@@ -81,6 +81,14 @@ class TestSubstitutionCipher(object):
         key = {'a': 'b', 'b': 'B'}
         assert not substitution_cipher.key_is_valid(key)
 
+    def test_decrypt(self, substitution_cipher):
+        key = {'a': 'b', 'b': 'c', 'c': 'd'}
+        ciphertext = 'bcd'
+        plaintext = substitution_cipher.decrypt(ciphertext, key)
+        assert plaintext == 'abc'
+
+
+
 class TestCaesarCipher(object):
     def test_no_shift(self):
         cipher = substitution.CaesarCipher()
@@ -137,3 +145,27 @@ class TestCaesarCipher(object):
         cipher = substitution.CaesarCipher()
         with pytest.raises(exceptions.InvalidKeyException):
             cipher.encrypt('abc', {'a':'b', 'b':'c'})
+
+    def test_decrypt_1(self):
+        cipher = substitution.CaesarCipher()
+        ciphertext = SHIFT_1
+        plaintext = cipher.decrypt(ciphertext, 1)
+        assert plaintext == FOX_TEXT
+
+    def test_decrypt_25(self):
+        cipher = substitution.CaesarCipher()
+        ciphertext = SHIFT_25
+        plaintext = cipher.decrypt(ciphertext, 25)
+        assert plaintext == FOX_TEXT
+
+    def test_decrypt_neg_1(self):
+        cipher = substitution.CaesarCipher()
+        ciphertext = SHIFT_25
+        plaintext = cipher.decrypt(ciphertext, -1)
+        assert plaintext == FOX_TEXT
+
+    def test_decrypt_neg_25(self):
+        cipher = substitution.CaesarCipher()
+        ciphertext = SHIFT_1
+        plaintext = cipher.decrypt(ciphertext, -25)
+        assert plaintext == FOX_TEXT

@@ -21,11 +21,10 @@ class SubstitutionCipher(base.EncryptionScheme):
             ciphertext += new_char
         return ciphertext
 
-    def decrypt(self, ciphertext, key):
-        self._validate_key(key)
-        key = self._convert_key_to_lower(key)
-        plaintext = ''
-        pass
+    def decrypt(self, ciphertext, encryption_key):
+        self._validate_key(encryption_key)
+        decryption_key = {value: key for key, value in encryption_key.items()}
+        return self.encrypt(ciphertext, decryption_key)
 
     def _validate_key(self, encryption_key):
         self._check_keys_are_unique(encryption_key.keys())
@@ -91,6 +90,10 @@ class CaesarCipher(SubstitutionCipher):
         key = key % 26
         substitution_key = dict(zip(ALPHABET, ALPHABET[key:] + ALPHABET[:key]))
         return super(CaesarCipher, self).encrypt(plaintext, substitution_key)
+
+    def decrypt(self, ciphertext, key):
+        self._ensure_key_is_int(key)
+        return self.encrypt(ciphertext, -key)
 
     # can't name _validate_key because then it'll interfere with the super call
     def _ensure_key_is_int(self, encryption_key):
