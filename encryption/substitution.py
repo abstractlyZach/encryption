@@ -13,6 +13,8 @@ class SubstitutionCipher(base.EncryptionScheme):
         pass
 
     def encrypt(self, plaintext, key):
+        """Substitute each letter of the plaintext with its replacement in
+        the key."""
         self._validate_key(key)
         key = self._convert_key_to_lower(key)
         ciphertext = ''
@@ -22,6 +24,8 @@ class SubstitutionCipher(base.EncryptionScheme):
         return ciphertext
 
     def decrypt(self, ciphertext, encryption_key):
+        """Substitute each letter of the ciphertext with its plaintext
+        counterpart."""
         self._validate_key(encryption_key)
         decryption_key = {value: key for key, value in encryption_key.items()}
         return self.encrypt(ciphertext, decryption_key)
