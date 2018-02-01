@@ -7,12 +7,12 @@ ENGLISH_DICTIONARY = utils.get_english_dictionary()
 
 
 def brute_force(ciphertext):
-    """Try all 26 different keys and return the most-likely one."""
+    """Try all 26 different keys and return the word count for each key."""
     hit_counter = dict()
     for decryption_key in range(25):
         num_decrypted_words = count_decrypted_words(ciphertext, decryption_key)
         hit_counter[decryption_key] = num_decrypted_words
-    return get_key_with_biggest_value(hit_counter)
+    return hit_counter
 
 def count_decrypted_words(ciphertext, decryption_key):
     cipher = substitution.CaesarCipher()
