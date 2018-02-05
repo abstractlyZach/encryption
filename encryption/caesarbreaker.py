@@ -6,6 +6,10 @@ from . import utils
 ENGLISH_DICTIONARY = utils.get_english_dictionary()
 
 
+def break_and_get_best_key(breaker_function, ciphertext):
+    hit_counter = breaker_function(ciphertext)
+    return get_key_with_biggest_value(hit_counter)
+
 def brute_force(ciphertext):
     """Try all 26 different keys and return the word count for each key."""
     hit_counter = dict()
