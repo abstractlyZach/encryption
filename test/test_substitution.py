@@ -87,6 +87,10 @@ class TestSubstitutionCipher(object):
         plaintext = substitution_cipher.decrypt(ciphertext, key)
         assert plaintext == 'abc'
 
+    def test_random_key(self, substitution_cipher):
+        for i in range(100):
+            key = substitution.get_random_substitution_key()
+            assert substitution_cipher.key_is_valid(key)
 
 
 class TestCaesarCipher(object):
@@ -169,3 +173,9 @@ class TestCaesarCipher(object):
         ciphertext = SHIFT_1
         plaintext = cipher.decrypt(ciphertext, -25)
         assert plaintext == FOX_TEXT
+
+    def test_random_key(self):
+        cipher = substitution.CaesarCipher()
+        for i in range(100):
+            key = substitution.get_random_caesar_key()
+            assert cipher.key_is_valid(key)

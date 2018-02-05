@@ -1,9 +1,21 @@
 """Substition ciphers"""
+import random
+
 from . import base
 from . import exceptions
 
 
 ALPHABET = 'abcdefghijklmnopqrstuvwxyz'
+
+
+def get_random_substitution_key():
+    replacement_char_list = list(ALPHABET)
+    random.shuffle(replacement_char_list)
+    key = dict(zip(list(ALPHABET), replacement_char_list))
+    return key
+
+def get_random_caesar_key():
+    return random.randint(0, 25)
 
 
 class SubstitutionCipher(base.EncryptionScheme):
