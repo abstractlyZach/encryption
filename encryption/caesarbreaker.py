@@ -34,3 +34,17 @@ def count_number_of_english_words(tokens):
 def get_key_with_biggest_value(dictionary):
     return max(dictionary.keys(), key=lambda x: dictionary[x])
 
+
+def incremental_brute_force(ciphertext, batch_size, threshold=2):
+    """Brute force the ciphertext in batches. Once the number of hits in the
+    first-place key exceeds the second-place key by the given threshold,
+    return the first-place key.
+    Args:
+        - ciphertext: text to decipher
+        - batch_size: number of tokens to brute force at a time
+        - threshold: return when 1st-place hits > 2nd-place hits * threshold
+    Returns:
+        key
+        """
+    hit_counter = dict()
+    pass
