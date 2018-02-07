@@ -14,14 +14,18 @@ def brute_force(ciphertext):
     """Try all 26 different keys and return the word count for each key."""
     hit_counter = dict()
     for decryption_key in range(25):
-        num_decrypted_words = count_decrypted_english_words(ciphertext, decryption_key)
+        tokens = word_tokenize(ciphertext)
+        num_decrypted_words = count_decrypted_english_words(tokens,
+                                                            decryption_key)
         hit_counter[decryption_key] = num_decrypted_words
     return hit_counter
 
-def count_decrypted_english_words(ciphertext, decryption_key):
+def count_decrypted_english_words(tokens, decryption_key):
     cipher = substitution.CaesarCipher()
-    plaintext = cipher.decrypt(ciphertext, decryption_key)
-    tokens = word_tokenize(plaintext)
+    tokens = [
+        cipher.decrypt(token, decryption_key)
+        for token in tokens
+    ]
     return count_number_of_english_words(tokens)
 
 def count_number_of_english_words(tokens):
