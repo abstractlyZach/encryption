@@ -13,8 +13,8 @@ def break_and_get_best_key(breaker_function, ciphertext):
 def brute_force(ciphertext):
     """Try all 26 different keys and return the word count for each key."""
     hit_counter = dict()
+    tokens = word_tokenize(ciphertext)
     for decryption_key in range(25):
-        tokens = word_tokenize(ciphertext)
         num_decrypted_words = count_decrypted_english_words(tokens,
                                                             decryption_key)
         hit_counter[decryption_key] = num_decrypted_words
