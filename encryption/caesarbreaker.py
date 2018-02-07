@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from nltk.tokenize import word_tokenize
 
 from . import substitution
@@ -48,7 +50,31 @@ def incremental_brute_force(ciphertext, batch_size, threshold=2):
         - batch_size: number of tokens to brute force at a time
         - threshold: return when 1st-place hits > 2nd-place hits * threshold
     Returns:
-        key
+        hit counter for all keys up to return point.
         """
-    hit_counter = dict()
-    pass
+    hit_counter = defaultdict(int)
+    tokens = word_tokenize(ciphertext)
+    iteration_counter = 0
+    while (iteration_counter * batch_size < len(tokens)):
+        tokens_to_examine = tokens[iteration_counter * batch_size:
+                                   (iteration_counter + 1)
+                                                    * batch_size]
+        for decryption_key in range(25):
+            num_decrypted_words = count_decrypted_english_words(tokens_to_examine,
+                                                                decryption_key)
+            hit_counter[decryption_key] += num_decrypted_words
+        best_key, second_best_key = get_best_two_keys(hit_counter)
+        if hit_counter[best_key] > hit_counter[second_best_key] * threshold:
+            return hit_counter
+        iteration_counter += 1
+    return hit_counter
+
+def get_best_two_keys(hit_counter):
+    sorted_keys = sorted(
+        [decryption_key
+         for decryption_key in hit_counter.keys()],
+        key=lambda x: hit_counter[x])
+    return sorted_keys[:2]
+
+
+
