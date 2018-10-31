@@ -6,3 +6,8 @@ class InvalidKeyException(Exception):
 class IncompleteKeyException(InvalidKeyException):
     pass
 
+class InvalidEncryptionFunctionException(Exception):
+    pass
+
+class InvalidKeyValidationFunctionException(Exception):
+    pass
