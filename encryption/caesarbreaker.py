@@ -2,7 +2,7 @@ from collections import defaultdict
 
 from nltk.tokenize import word_tokenize
 
-from . import substitution
+from . import substitution_old
 from . import utils
 
 ENGLISH_DICTIONARY = utils.get_english_dictionary()
@@ -23,7 +23,7 @@ def brute_force(ciphertext):
     return hit_counter
 
 def count_decrypted_english_words(tokens, decryption_key):
-    cipher = substitution.CaesarCipher()
+    cipher = substitution_old.CaesarCipher()
     tokens = [
         cipher.decrypt(token, decryption_key)
         for token in tokens

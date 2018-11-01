@@ -1,7 +1,7 @@
 import pytest
 
 from encryption import exceptions
-from encryption import substitution
+from encryption import substitution_old
 
 
 ALPHABET = 'abcdefghijklmnopqrstuvwxyz'
@@ -11,12 +11,12 @@ SHIFT_25 = 'Sgd pthbj aqnvm enw itlor nudq sgd kzyx cnf.'
 
 @pytest.fixture
 def substitution_cipher():
-    return substitution.SubstitutionCipher()
+    return substitution_old.SubstitutionCipher()
 
 class TestSubstitutionCipher(object):
     def test_init(self):
         key = {}
-        substitution.SubstitutionCipher()
+        substitution_old.SubstitutionCipher()
 
     def test_symbols_dont_change_if_not_in_key(self, substitution_cipher):
         cipher = substitution_cipher
@@ -89,49 +89,49 @@ class TestSubstitutionCipher(object):
 
     def test_random_key(self, substitution_cipher):
         for i in range(100):
-            key = substitution.get_random_substitution_key()
+            key = substitution_old.get_random_substitution_key()
             assert substitution_cipher.key_is_valid(key)
 
 
 class TestCaesarCipher(object):
     def test_no_shift(self):
-        cipher = substitution.CaesarCipher()
+        cipher = substitution_old.CaesarCipher()
         plaintext = FOX_TEXT
         ciphertext = cipher.encrypt(plaintext, 0)
         assert plaintext == ciphertext
 
     def test_shift_1(self):
-        cipher = substitution.CaesarCipher()
+        cipher = substitution_old.CaesarCipher()
         plaintext = FOX_TEXT
         ciphertext = cipher.encrypt(plaintext, 1)
         assert ciphertext == SHIFT_1
 
     def test_shift_26(self):
-        cipher = substitution.CaesarCipher()
+        cipher = substitution_old.CaesarCipher()
         plaintext = FOX_TEXT
         ciphertext = cipher.encrypt(plaintext, 26)
         assert ciphertext == plaintext
 
     def test_shift_27(self):
-        cipher = substitution.CaesarCipher()
+        cipher = substitution_old.CaesarCipher()
         plaintext = FOX_TEXT
         ciphertext = cipher.encrypt(plaintext, 27)
         assert ciphertext == SHIFT_1
 
     def test_shift_back_1(self):
-        cipher = substitution.CaesarCipher()
+        cipher = substitution_old.CaesarCipher()
         plaintext = FOX_TEXT
         ciphertext = cipher.encrypt(plaintext, -1)
         assert ciphertext == SHIFT_25
 
     def test_shift_back_26(self):
-        cipher = substitution.CaesarCipher()
+        cipher = substitution_old.CaesarCipher()
         plaintext = FOX_TEXT
         ciphertext = cipher.encrypt(plaintext, -26)
         assert ciphertext == plaintext
 
     def test_shift_back_27(self):
-        cipher = substitution.CaesarCipher()
+        cipher = substitution_old.CaesarCipher()
         plaintext = FOX_TEXT
         ciphertext = cipher.encrypt(plaintext, -27)
         assert ciphertext == SHIFT_25
@@ -139,43 +139,43 @@ class TestCaesarCipher(object):
     def test_key_is_valid(self):
         valid_keys = [-100, 100, 0]
         invalid_keys = [{'a':'b', 'b':'c'}, 'aeiou', []]
-        cipher = substitution.CaesarCipher()
+        cipher = substitution_old.CaesarCipher()
         for key in valid_keys:
             assert cipher.key_is_valid(key)
         for key in invalid_keys:
             assert not cipher.key_is_valid(key)
 
     def test_shift_raises_exception_with_invalid_key(self):
-        cipher = substitution.CaesarCipher()
+        cipher = substitution_old.CaesarCipher()
         with pytest.raises(exceptions.InvalidKeyException):
             cipher.encrypt('abc', {'a':'b', 'b':'c'})
 
     def test_decrypt_1(self):
-        cipher = substitution.CaesarCipher()
+        cipher = substitution_old.CaesarCipher()
         ciphertext = SHIFT_1
         plaintext = cipher.decrypt(ciphertext, 1)
         assert plaintext == FOX_TEXT
 
     def test_decrypt_25(self):
-        cipher = substitution.CaesarCipher()
+        cipher = substitution_old.CaesarCipher()
         ciphertext = SHIFT_25
         plaintext = cipher.decrypt(ciphertext, 25)
         assert plaintext == FOX_TEXT
 
     def test_decrypt_neg_1(self):
-        cipher = substitution.CaesarCipher()
+        cipher = substitution_old.CaesarCipher()
         ciphertext = SHIFT_25
         plaintext = cipher.decrypt(ciphertext, -1)
         assert plaintext == FOX_TEXT
 
     def test_decrypt_neg_25(self):
-        cipher = substitution.CaesarCipher()
+        cipher = substitution_old.CaesarCipher()
         ciphertext = SHIFT_1
         plaintext = cipher.decrypt(ciphertext, -25)
         assert plaintext == FOX_TEXT
 
     def test_random_key(self):
-        cipher = substitution.CaesarCipher()
+        cipher = substitution_old.CaesarCipher()
         for i in range(100):
-            key = substitution.get_random_caesar_key()
+            key = substitution_old.get_random_caesar_key()
             assert cipher.key_is_valid(key)
