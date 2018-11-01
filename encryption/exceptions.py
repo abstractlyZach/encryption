@@ -6,7 +6,7 @@ class InvalidKeyException(Exception):
 class IncompleteKeyException(InvalidKeyException):
     pass
 
-class InvalidEncryptionFunctionException(Exception):
+class NotAFunctionException(Exception):
     pass
 
 class InvalidKeyValidationFunctionException(Exception):
