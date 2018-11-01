@@ -16,14 +16,14 @@ class EncryptionScheme(object):
             self._encryption_function = encryption_function
         else:
             raise exceptions.NotAFunctionException()
-        if callable(key_validation_function):
-            self._key_validation_function = key_validation_function
-        else:
-            raise exceptions.InvalidKeyValidationFunctionException()
         if callable(decryption_function):
             self._decryption_function = decryption_function
         else:
             raise exceptions.NotAFunctionException()
+        if callable(key_validation_function):
+            self._key_validation_function = key_validation_function
+        else:
+            raise exceptions.InvalidKeyValidationFunctionException()
 
     def encrypt(self, plaintext, key):
         if self.key_is_valid(key):
