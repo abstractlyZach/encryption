@@ -10,6 +10,8 @@ invalid_key_parameters = (
         {'a': 'c', 'b': 'c'},
         {'c': 'd', 'e': 'd', 'f': 'd'},
         'test string',
+        None,
+        set()
     ]
 )
 
