@@ -6,5 +6,5 @@ def get_english_dictionary():
         return english_dictionary
 
 def get_text_as_string(file_name):
-    with open('data/{}.txt'.format(file_name), 'r') as infile:
+    with open('data/{}'.format(file_name), 'r') as infile:
         return infile.read()

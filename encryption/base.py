@@ -27,13 +27,13 @@ class EncryptionScheme(object):
 
     def encrypt(self, plaintext, key):
         if self.key_is_valid(key):
-            self._encryption_function(plaintext, key)
+            return self._encryption_function(plaintext, key)
         else:
             raise exceptions.InvalidKeyException()
 
     def decrypt(self, ciphertext, key):
         if self.key_is_valid(key):
-            self._decryption_function(ciphertext, key)
+            return self._decryption_function(ciphertext, key)
         else:
             raise exceptions.InvalidKeyException()
 
