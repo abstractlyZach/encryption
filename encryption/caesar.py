@@ -1,12 +1,22 @@
 import string
 import operator
 
+from . import base
 from . import exceptions
 from . import substitution
 
 
 ALPHABET = list(string.ascii_lowercase)
 INVALID_KEY_MESSAGE = 'Caesar cipher keys must be ints.'
+
+
+def get_caesar_cipher():
+    cipher = base.EncryptionScheme(
+        caesar_encrypt,
+        caesar_decrypt,
+        is_valid_key
+    )
+    return cipher
 
 
 def caesar_encrypt(plaintext, key):
