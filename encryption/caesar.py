@@ -8,6 +8,7 @@ from . import substitution
 ALPHABET = list(string.ascii_lowercase)
 INVALID_KEY_MESSAGE = 'Caesar cipher keys must be ints.'
 
+
 def caesar_encrypt(plaintext, key):
     """Execute a Caesar encryption on the plaintext, translating each
     character x letters forward in the alphabet, where x is the key.
